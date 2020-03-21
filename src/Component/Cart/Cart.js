@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import CartRow from './CartRow'
 import CartResult from './CartResult'
 
-export default class Cart extends Component {
+ class Cart extends Component {
+     
     render() {
+        let {product , handleClick , handleDelete} = this.props;
         return (
             <div>
                 <section className="section">
@@ -20,8 +22,8 @@ export default class Cart extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <CartRow/>
-                                <CartResult/>
+                                <CartRow product = {product} handleClick = {handleClick} handleDelete = {handleDelete}/>
+                                <CartResult product = {product}/>
                                
                             </tbody>
                         </table>
@@ -31,3 +33,12 @@ export default class Cart extends Component {
         )
     }
 }
+
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         dispatch1: () => {
+//             dispatch(actionCreator)
+//         }
+//     }
+// }
+export default Cart

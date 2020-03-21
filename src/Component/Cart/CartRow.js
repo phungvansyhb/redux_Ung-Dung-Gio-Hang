@@ -1,50 +1,53 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
- class CartRow extends Component {
+
+class CartRow extends Component {
+    modalBox = (item) => {
+        let confirm = window.confirm("Ban chac chan muon xoa san pham khoi gio hang khong ?");
+        if(confirm) return this.props.handleDelete(item)
+        else return -1
+    }
     render() {
-        return (
-            <tr>
-                <th scope="row">
-                    <img src="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/H0/HH0H2/HH0H2?wid=445&hei=445&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=K7ik72"
-                        alt="" className="img-fluid z-depth-0" />
-                </th>
-                <td>
-                    <h5>
-                        <strong>Iphone 6 Plus</strong>
-                    </h5>
-                </td>
-                <td>15$</td>
-                <td className="center-on-small-only">
-                    <span className="qty">1 </span>
-                    <div className="btn-group radio-group" data-toggle="buttons">
-                        <label className="btn btn-sm btn-primary
-                                                btn-rounded waves-effect waves-light">
-                            <span> — </span>
-                        </label>
-                        <label className="btn btn-sm btn-primary
-                                                btn-rounded waves-effect waves-light">
-                            <span> + </span>
-                        </label>
-                    </div>
-                </td>
-                <td>15$</td>
-                <td>
-                    <button type="button" className="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top"
-                        title="" data-original-title="Remove item">
-                        X
-                                        </button>
-                </td>
-            </tr>
-        )
+        let  {product, handleClick  } = this.props;
+        if (product)
+            return product.map((item ,index) => {
+                return (
+                    <tr key = {index}>
+                        <th scope="row">
+                            <img src={item.product.img}
+                                alt="mota" className="img-fluid z-depth-0" />
+                        </th>
+                        <td>
+                            <h5>
+                                <strong>{item.product.name}</strong>
+                            </h5>
+                        </td>
+                        <td>{item.product.cost}$</td>
+                        <td className="center-on-small-only">
+                            <span className="qty">{item.num}</span>
+                            <div className="btn-group radio-group" data-toggle="buttons">
+                                <label className="btn btn-sm btn-primary
+                                                btn-rounded waves-effect waves-light"
+                                                onClick = {() => handleClick(item ,"decrease")}>
+                                    <span > — </span>
+                                </label>
+                                <label className="btn btn-sm btn-primary
+                                                btn-rounded waves-effect waves-light"
+                                                onClick = {() => handleClick(item , "increase")}>
+                                    <span > + </span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>{item.product.cost * item.num}</td>
+                        <td>
+                            <button type="button" className="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top"
+                                title="" data-original-title="Remove item" onClick= {() => this.modalBox(item)}>
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                )
+            })
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    console.log(state.cart)
-    return {
-        product: state.cart.product,
-        num: state.cart.num
-    }
-}
-
-export default connect(mapStateToProps)(CartRow)
+export default CartRow

@@ -5,7 +5,7 @@ export default class Products extends Component {
     showListProduct = () => {
         if (this.props.product.length > 0 )
         return this.props.product.map( (item , key) => {
-            return ( <ProductItem product = {item} key = {key}/>)
+            return ( <ProductItem product = {item} key = {key} handleclick = {this.props.handleclick}/>)
         })
     }
     render() {
